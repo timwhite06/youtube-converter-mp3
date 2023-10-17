@@ -8,7 +8,8 @@ def download_youtube_video(url):
         yt = YouTube(url)
         video = yt.streams.get_highest_resolution()
         video.download()
-        return True, yt.title + ".mp4"
+        # return True, yt.title + ".mp4"
+        return True, yt.title + ".mp3"
     except Exception as e:
         print(f"Error: {e}")
         return False, None
@@ -17,7 +18,7 @@ def download_youtube_video(url):
 def convert_to_mp3(video_file):
     try:
         base_name, _ = os.path.splitext(video_file)
-        mp3_file = f"{base_name}.mp3"
+        mp3_file = os.path.join("music", f"{base_name}.mp3")
         subprocess.run(["ffmpeg", "-i", video_file, "-q:a", "0", "-map", "a", mp3_file])
         return mp3_file
     except Exception as e:
