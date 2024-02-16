@@ -1,46 +1,45 @@
 import os
-import subprocess
 from pytube import YouTube
+from tkinter import filedialog
+import tkinter as tk
 
-# Function to download YouTube video in highest quality
-def download_youtube_video(url):
+# Function to download YouTube audio in the best quality
+def download_youtube_audio(url, download_path):
     try:
         yt = YouTube(url)
-        video = yt.streams.get_highest_resolution()
-        video.download()
-        # return True, yt.title + ".mp4"
-        return True, yt.title + ".mp3"
+        audio = yt.streams.filter(only_audio=True).first()
+        audio.download(download_path)
+        audio_file = os.path.join(download_path, f"{yt.title}.mp3")
+        return True, audio_file, yt.title
     except Exception as e:
         print(f"Error: {e}")
-        return False, None
+        return False, None, None
 
-# Function to convert downloaded video to MP3 using ffmpeg
-def convert_to_mp3(video_file):
-    try:
-        base_name, _ = os.path.splitext(video_file)
-        mp3_file = os.path.join("music", f"{base_name}.mp3")
-        subprocess.run(["ffmpeg", "-i", video_file, "-q:a", "0", "-map", "a", mp3_file])
-        return mp3_file
-    except Exception as e:
-        print(f"Error: {e}")
-        return None
+# Function to prompt user for download location using tkinter
+def prompt_for_download_path():
+    root = tk.Tk()
+    root.withdraw()
+    download_path = filedialog.askdirectory(title="Select Download Location")
+    return download_path
 
 if __name__ == "__main__":
-    youtube_url = input("Enter the YouTube URL: ")
-    
-    success, video_file = download_youtube_video(youtube_url)
-    
-    if success:
-        print("Video downloaded successfully!")
-        
-        mp3_file = convert_to_mp3(video_file)
-        
-        if mp3_file:
-            print(f"MP3 file '{mp3_file}' created successfully!")
-            
-            # Optionally, you can delete the downloaded video file
-            os.remove(video_file)
-        else:
-            print("Failed to convert to MP3.")
+    download_path = prompt_for_download_path()
+
+    if not download_path:
+        print("Download location not selected. Exiting.")
     else:
-        print("Failed to download the video.")
+        while True:
+            youtube_url = input("Enter the YouTube URL (or type 'exit' to stop): ")
+
+            if youtube_url.lower() == 'exit':
+                break
+
+            success, audio_file, title = download_youtube_audio(youtube_url, download_path)
+
+            if success:
+                print("\n" + title + ": Audio downloaded successfully!\n")
+
+                # Optionally, you can delete the downloaded video file
+                # os.remove(video_file)
+            else:
+                print("Failed to download the audio.")
