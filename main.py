@@ -7,7 +7,7 @@ import tkinter as tk
 def download_youtube_audio(url, download_path):
     try:
         yt = YouTube(url)
-        audio = yt.streams.filter().get_highest_resolution()
+        audio = yt.streams.filter(only_audio=True).get_highest_resolution()
         audio.download(download_path)
         audio_file = os.path.join(download_path, f"{yt.title}.mp3")
         return True, audio_file, yt.title
