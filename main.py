@@ -52,9 +52,9 @@ if __name__ == "__main__":
             success, audio_file, title = download_youtube_audio(youtube_url, download_path)
 
             if success:
-                print("\n" + title + ": Audio downloaded successfully!\n")
+                print("\n \033[92m" + title + ": downloaded successfully! \033[0m\n")
 
                 # Optionally, you can delete the downloaded video file
                 # os.remove(video_file)
             else:
-                print("Failed to download the audio.")
+                print("\033[91m Failed to download the audio. \033[0m\n")
