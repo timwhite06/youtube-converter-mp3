@@ -4,22 +4,19 @@ from tkinter import filedialog
 import tkinter as tk
 
 # Function to download YouTube audio in the best quality
-# Function to download YouTube audio in the best quality
 def download_youtube_audio(url, download_path):
     try:
+        global progress_bar
         yt = YouTube(url)
-        audio = yt.streams.filter(only_audio=True).get_highest_resolution()
 
-        if audio:
-            audio.download(download_path)
-            audio_file = os.path.join(download_path, f"{yt.title}.mp3")
-            return True, audio_file, yt.title
-        elif yt.streams:
+        if yt.streams:
             # If there are no audio streams but other streams are available
             any_stream = yt.streams.get_highest_resolution()
+
             any_stream.download(download_path)
             any_file = os.path.join(download_path, f"{yt.title}.mp4")  # Use any file extension
             print("Downloading ANY stream: No audio available.")
+
             return True, any_file, yt.title
         else:
             print("No streams available for this video.")
