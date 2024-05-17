@@ -6,7 +6,7 @@ This is a simple Python script to download audio from YouTube videos.
 1. [Introduction](#introduction)
 2. [Installation](#installation)
    - [Clone the Repository](#clone-the-repository)
-   - [Install Dependencies](#install-dependencies)
+   - [Install Dependencies](#virutal-environment--install-dependencies)
 3. [Usage](#usage)
    - [Run the Script](#run-the-script)
    - [Expectations](#expectations)
@@ -20,13 +20,28 @@ Clone the Repository:
 git clone https://github.com/timwhite06/youtube-converter-mp3.git
 ```
 
-### Install Dependencies:
+### Virutal Environment & Install Dependencies:
 
 Before running the script, make sure you have Python installed on your system. Then, install the required Python packages using pip:
 
 Navigate to the Project Directory:
 ```bash
 cd <youtube-converter-mp3>
+```
+
+Create virtual environment
+```bash
+python -m venv .venv
+```
+
+On windows:
+```bash
+.venv\Scripts\activate
+```
+
+On Linux/macOS:
+```bash
+source .venv/bin/activate
 ```
 
 Install the dependencies
